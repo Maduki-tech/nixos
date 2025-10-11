@@ -18,17 +18,6 @@
         };
       };
 
-      gestures = {
-        workspace_swipe = 1;
-        workspace_swipe_fingers = 3;
-        workspace_swipe_distance = 500;
-        workspace_swipe_invert = 1;
-        workspace_swipe_min_speed_to_force = 30;
-        workspace_swipe_cancel_ratio = 0.5;
-        workspace_swipe_create_new = 1;
-        workspace_swipe_forever = 1;
-      };
-
       general = {
         "$modifier" = "SUPER";
         layout = "dwindle";
@@ -36,8 +25,8 @@
         gaps_out = 8;
         border_size = 2;
         resize_on_border = true;
-        "col.active_border" = "rgb(${config.lib.stylix.colors.base08}) rgb(${config.lib.stylix.colors.base0C}) 45deg";
-        "col.inactive_border" = "rgb(${config.lib.stylix.colors.base01})";
+        # "col.active_border" = "rgb(${config.lib.stylix.colors.base08}) rgb(${config.lib.stylix.colors.base0C}) 45deg";
+        # "col.inactive_border" = "rgb(${config.lib.stylix.colors.base01})";
       };
 
       misc = {
@@ -112,6 +101,10 @@
         force_zero_scaling = true;
       };
     };
+    extraConfig = ''
+          monitor = HDMI-A-1, 1920x1080, 1920x0, 1
+      monitor = DP-1, 1920x1080, 0x0, 1
+    '';
   };
 
 }
