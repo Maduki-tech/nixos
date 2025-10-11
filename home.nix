@@ -27,6 +27,7 @@
     fzf
     glow
     cargo
+    tree
   ];
 
   # starship - an customizable prompt for any shell
@@ -44,7 +45,6 @@
     enable = true;
     autosuggestion = {
       enable = true;
-      highlight = "fg=#ff00ff,bg=cyan,bold,underline";
     };
     shellAliases = {
       nixconf = "nvim ~/etc/nixos";
