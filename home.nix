@@ -20,6 +20,8 @@
 
   imports = [
     ./programs/nvim/nvim.nix
+    ./programs/tmux/tmux.nix
+    ./programs/niri/niri.nix
   ];
 
   home.packages = with pkgs; [
@@ -28,6 +30,15 @@
     glow
     cargo
     tree
+    spotify
+
+    waybar
+    mako
+    fuzzel
+    swaylock
+    grim
+    slurp
+    wl-clipboard
   ];
 
   # starship - an customizable prompt for any shell
