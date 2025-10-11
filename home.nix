@@ -4,11 +4,18 @@
   home.username = "maduki";
   home.homeDirectory = "/home/maduki";
 
-  # basic configuration of git, please change to your own
+
   programs.git = {
     enable = true;
     userName = "Maduki-tech";
     userEmail = "d.schlueter1011@gmail.com";
+  };
+
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+    };
   };
 
   imports = [
