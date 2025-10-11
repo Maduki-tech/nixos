@@ -21,7 +21,7 @@
   imports = [
     ./programs/nvim/nvim.nix
     ./programs/tmux/tmux.nix
-    ./programs/niri/niri.nix
+    ./portal/hyprland/hyprland.nix
   ];
 
   home.packages = with pkgs; [
