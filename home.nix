@@ -1,0 +1,56 @@
+{ config, pkgs, ... }:
+
+{
+  home.username = "maduki";
+  home.homeDirectory = "/home/maduki";
+
+  # basic configuration of git, please change to your own
+  programs.git = {
+    enable = true;
+    userName = "Maduki-tech";
+    userEmail = "d.schlueter1011@gmail.com";
+  };
+
+  imports = [
+    ./programs/nvim/nvim.nix
+  ];
+
+  home.packages = with pkgs; [
+    unzip
+    fzf
+    glow
+    cargo
+  ];
+
+  # starship - an customizable prompt for any shell
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    # custom settings
+    settings = {
+      add_newline = false;
+      line_break.disabled = true;
+    };
+  };
+
+  programs.zsh = {
+    enable = true;
+    autosuggestion = {
+      enable = true;
+      highlight = "fg=#ff00ff,bg=cyan,bold,underline";
+    };
+    shellAliases = {
+      nixconf = "nvim ~/etc/nixos";
+      nixbuild = "sudo nixos-rebuild switch --flake ~/etc/nixos#uwu";
+    };
+  };
+
+  programs.ghostty = {
+    enable = true;
+    settings = {
+      font-size = 18;
+    };
+  };
+
+  home.stateVersion = "25.05";
+}
