@@ -9,6 +9,7 @@
       "$mainMod, Q, killactive,"
       "$mainMod, M, exit,"
       "$mainMod, V, togglefloating,"
+      "$mainMod, T, exec, ticktick"
       "$mainMod, F, fullscreen, 1"
 
       # Wallpaper controls

@@ -15,7 +15,14 @@
     settings = { git_protocol = "ssh"; };
   };
 
-  imports = [ ./programs ./portal/hyprland ./portal/waybar ];
+  imports = [
+    ./programs
+    ./portal/hyprland
+    ./portal/waybar
+    ./portal/wlogout
+    ./portal/swaylock
+    ./portal/swayidle
+  ];
 
   home.packages = with pkgs; [
     unzip
@@ -44,6 +51,12 @@
     font-awesome
     noto-fonts
     noto-fonts-emoji
+
+    wlogout
+    blueman
+
+    obsidian
+    ticktick
   ];
 
   fonts.fontconfig.enable = true;
@@ -79,4 +92,5 @@
   programs.lazygit = { enable = true; };
 
   home.stateVersion = "25.05";
+
 }
