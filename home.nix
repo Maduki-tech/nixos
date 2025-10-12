@@ -4,7 +4,6 @@
   home.username = "maduki";
   home.homeDirectory = "/home/maduki";
 
-
   programs.git = {
     enable = true;
     userName = "Maduki-tech";
@@ -13,15 +12,10 @@
 
   programs.gh = {
     enable = true;
-    settings = {
-      git_protocol = "ssh";
-    };
+    settings = { git_protocol = "ssh"; };
   };
 
-  imports = [
-    ./programs
-    ./portal/hyprland
-  ];
+  imports = [ ./programs ./portal/hyprland ./portal/waybar ];
 
   home.packages = with pkgs; [
     unzip
@@ -54,9 +48,7 @@
 
   programs.zsh = {
     enable = true;
-    autosuggestion = {
-      enable = true;
-    };
+    autosuggestion = { enable = true; };
     shellAliases = {
       nixconf = "nvim ~/etc/nixos";
       nixbuild = "sudo nixos-rebuild switch --flake ~/etc/nixos#uwu";
@@ -65,9 +57,7 @@
 
   programs.ghostty = {
     enable = true;
-    settings = {
-      font-size = 18;
-    };
+    settings = { font-size = 18; };
   };
 
   home.stateVersion = "25.05";

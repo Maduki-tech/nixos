@@ -19,6 +19,7 @@ pkgs.writeShellScriptBin "wallsetter" ''
   	PREVIOUS=$WALLPAPER
 
   	${pkgs.swww}/bin/swww img "$WALLPAPER" --transition-type random --transition-step 1 --transition-fps 60
+      	notify-send -t 5000 "Wallpaper changed" "$WALLPAPER"
   	sleep $TIMEOUT
   done
 ''

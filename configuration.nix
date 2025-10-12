@@ -5,11 +5,10 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -78,12 +77,12 @@
     shell = pkgs.zsh;
     description = "Maduki";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-      #  thunderbird
-    ];
+    packages = with pkgs;
+      [
+        kdePackages.kate
+        #  thunderbird
+      ];
   };
-
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -108,6 +107,7 @@
     curl
     luajitPackages.luarocks_bootstrap
     vimPlugins.nvim-treesitter.withAllGrammars
+    libnotify
   ];
 
   environment.variables = {
@@ -128,9 +128,7 @@
     powerOnBoot = true;
   };
 
-  hardware.graphics = {
-    enable = true;
-  };
+  hardware.graphics = { enable = true; };
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
