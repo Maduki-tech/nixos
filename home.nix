@@ -36,7 +36,6 @@
     ripgrep
     mako
     fuzzel
-    swaylock
     grim
     slurp
     wl-clipboard
@@ -52,7 +51,6 @@
     noto-fonts
     noto-fonts-emoji
 
-    wlogout
     blueman
 
     obsidian
