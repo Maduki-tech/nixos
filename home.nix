@@ -19,8 +19,7 @@
   };
 
   imports = [
-    ./programs/nvim/nvim.nix
-    ./programs/tmux/tmux.nix
+    ./programs
     ./portal/hyprland
   ];
 
@@ -33,6 +32,7 @@
     spotify
 
     waybar
+    walker
     mako
     fuzzel
     swaylock

@@ -2,14 +2,15 @@
 {
   wayland.windowManager.hyprland.settings = {
     bind = [
-      "$modifier,Return,exec,ghostty"
-      "$modifier,K,exec,list-keybinds"
+      "$modifier, Return, exec, ghostty"
+      "$modifier, K,exec,list-keybinds"
       "$modifier ,R,exec,rofi-launcher"
       "$modifier SHIFT,Return,exec,rofi-launcher"
+      "$modifier ,SPACE,exec,walker -p 'Start...'"
       "$modifier SHIFT,W,exec,web-search"
       "$modifier ALT,W,exec,wallsetter"
       "$modifier SHIFT,N,exec,swaync-client -rs"
-      "$modifier,W,exec,firefox"
+      "$modifier,B,exec,firefox"
       "$modifier,Y,exec,kitty -e yazi"
       "$modifier,E,exec,emopicker9000"
       "$modifier,S,exec,screenshootin"
@@ -27,7 +28,7 @@
       "$modifier,P,pseudo,"
       "$modifier,V,exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
       "$modifier SHIFT,I,togglesplit,"
-      "$modifier,F,fullscreen,"
+      "$modifier,F,fullscreen, 1"
       "$modifier SHIFT,F,togglefloating,"
       "$modifier ALT,F,workspaceopt, allfloat"
       "$modifier SHIFT,C,exit,"

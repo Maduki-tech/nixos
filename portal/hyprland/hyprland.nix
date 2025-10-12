@@ -41,6 +41,7 @@
         vrr = 2; #Variable Refresh Rate  Might need to set to 0 for NVIDIA/AQ_DRM_DEVICES
         # Screen flashing to black momentarily or going black when app is fullscreen
         # Try setting vrr to 0
+        force_default_wallpaper = 1;
 
         #  Application not responding (ANR) settings
         enable_anr_dialog = true;
@@ -72,12 +73,14 @@
 
       ecosystem = {
         no_donation_nag = true;
-        no_update_news = false;
+        no_update_news = true;
       };
+
+
 
       cursor = {
         sync_gsettings_theme = true;
-        no_hardware_cursors = 2; # change to 1 if want to disable
+        no_hardware_cursors = 1; # change to 1 if want to disable
         enable_hyprcursor = false;
         warp_on_change_workspace = 2;
         no_warps = true;
