@@ -33,7 +33,20 @@
     grim
     slurp
     wl-clipboard
+
+    opencode
+
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.hack
+    nerd-fonts.fira-code
+    nerd-fonts.iosevka
+
+    font-awesome
+    noto-fonts
+    noto-fonts-emoji
   ];
+
+  fonts.fontconfig.enable = true;
 
   # starship - an customizable prompt for any shell
   programs.starship = {
@@ -57,8 +70,13 @@
 
   programs.ghostty = {
     enable = true;
-    settings = { font-size = 18; };
+    settings = {
+      font-size = 18;
+      font-family = "JetBrainsMono Nerd Font";
+    };
   };
+
+  programs.lazygit = { enable = true; };
 
   home.stateVersion = "25.05";
 }

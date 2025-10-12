@@ -1,5 +1,6 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
+  home.packages = with pkgs; [ swww ];
+
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -42,7 +43,8 @@
         disable_splash_rendering = true;
         enable_swallow = false;
         vfr = true; # Variable Frame Rate
-        vrr = 2; #Variable Refresh Rate  Might need to set to 0 for NVIDIA/AQ_DRM_DEVICES
+        vrr =
+          2; # Variable Refresh Rate  Might need to set to 0 for NVIDIA/AQ_DRM_DEVICES
         # Screen flashing to black momentarily or going black when app is fullscreen
         # Try setting vrr to 0
         force_default_wallpaper = 1;
@@ -90,9 +92,7 @@
         no_warps = true;
       };
 
-      render = {
-        direct_scanout = 0;
-      };
+      render = { direct_scanout = 0; };
 
       windowrule = [
         "suppressevent maximize, class:.*"
@@ -106,9 +106,7 @@
       };
 
       # Ensure Xwayland windows render at integer scale; compositor scales them
-      xwayland = {
-        force_zero_scaling = true;
-      };
+      xwayland = { force_zero_scaling = true; };
     };
     extraConfig = ''
       monitor = HDMI-A-1, 1920x1080, 1920x0, 1
