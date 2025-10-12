@@ -48,18 +48,7 @@
   boot.consoleLogLevel = 0;
   boot.initrd.verbose = false;
 
-  systemd = {
-    settings = {
-      Manager = {
-        DefaultTimeoutStartSec = "10s";
-        DefaultTimeoutStopSec = "10s";
-      };
-    };
-
-  };
-
   ## CONFIG
-
   networking.hostName = "uwu";
 
   networking.networkmanager.enable = true;
