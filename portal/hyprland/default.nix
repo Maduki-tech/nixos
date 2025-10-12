@@ -5,5 +5,6 @@
     ./binds.nix
     ./env.nix
     ./animations-def.nix
+    ./exec-once.nix
   ];
 }

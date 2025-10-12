@@ -1,5 +1,10 @@
-{ host, ... }:
+{ host, pkgs, ... }:
 {
+  home.packages = with pkgs; [
+    swww
+    wl-clipboard
+    playerctl
+  ];
   wayland.windowManager.hyprland.settings = {
     bind = [
       # Example binds, see https://wiki.hypr.land/Configuring/Binds/ for more
@@ -9,7 +14,7 @@
       "$mainMod, Q, killactive,"
       "$mainMod, M, exit,"
       "$mainMod, V, togglefloating,"
-
+      "$mainMod, F, fullscreen, 1"
       # Move focus with mainMod + arrow keys
       "$mainMod, left, movefocus, l"
       "$mainMod, right, movefocus, r"

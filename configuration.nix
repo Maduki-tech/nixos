@@ -48,9 +48,6 @@
     layout = "us";
     variant = "";
   };
-  # NVIDIA
-  #services.xserver.videoDrivers = [ "nvidia"];
-  #hardware.nvidia.open = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -129,6 +126,21 @@
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
+  };
+
+  hardware.graphics = {
+    enable = true;
+  };
+
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
 }
