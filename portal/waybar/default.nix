@@ -157,7 +157,7 @@
       "custom/arrow6" = { format = ""; };
       "custom/arrow7" = { format = ""; };
     }];
-    style = concatStrings [''
+    style = ''
       * {
         font-family: JetBrainsMono Nerd Font Mono;
         font-size: 14px;
@@ -249,6 +249,6 @@
         color: #${config.lib.stylix.colors.base04};
         background: transparent;
       }
-    ''];
+    '';
   };
 }

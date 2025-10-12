@@ -5,9 +5,6 @@
   stylix = {
     enable = true;
 
-    # Option 1: Generate colors from a wallpaper
-    image = /etc/nixos/wallpapers/your-favorite-wallpaper.jpg;
-
     # Option 2: Use a base16 scheme
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
 
