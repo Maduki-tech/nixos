@@ -11,13 +11,16 @@
         "custom/startmenu"
         "custom/arrow6"
         "pulseaudio"
+        "bluetooth"
         "cpu"
         "memory"
+        "custom/gpu"
         "idle_inhibitor"
         "custom/arrow7"
         "hyprland/window"
       ];
       modules-right = [
+        "network"
         "custom/arrow4"
         "custom/hyprbindings"
         "custom/arrow3"
@@ -41,95 +44,152 @@
         on-scroll-up = "hyprctl dispatch workspace e+1";
         on-scroll-down = "hyprctl dispatch workspace e-1";
       };
+
       "clock" = {
-        format = " {:L%H:%M}";
+        format = " {:L%H:%M}";
         tooltip = true;
         tooltip-format = ''
           <big>{:%A, %d.%B %Y }</big>
           <tt><small>{calendar}</small></tt>'';
       };
+
       "hyprland/window" = {
         max-length = 22;
         separate-outputs = false;
         rewrite = { "" = " 🙈 No Windows? "; };
       };
+
       "memory" = {
         interval = 5;
-        format = " {}%";
+        format = " {}%";
         tooltip = true;
+        tooltip-format = "RAM: {used:0.1f}GiB / {total:0.1f}GiB";
       };
+
       "cpu" = {
         interval = 5;
-        format = " {usage:2}%";
+        format = " {usage:2}%";
         tooltip = true;
+        tooltip-format = ''
+          CPU Usage: {usage}%
+          Average Load: {load}'';
       };
+
       "disk" = {
-        format = " {free}";
+        format = " {free}";
         tooltip = true;
       };
+
+      # Network module for monitoring connection
       "network" = {
         format-icons = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
-        format-ethernet = " {bandwidthDownOctets}";
+        format-ethernet = "󰈀 {bandwidthDownBits}";
         format-wifi = "{icon} {signalStrength}%";
-        format-disconnected = "󰤮";
-        tooltip = false;
+        format-disconnected = "󰤮 Disconnected";
+        tooltip = true;
+        tooltip-format = "{ifname}: {ipaddr}/{cidr}";
+        tooltip-format-wifi = ''
+          {essid} ({signalStrength}%)
+          {ifname}: {ipaddr}/{cidr}'';
+        tooltip-format-ethernet = ''
+          {ifname}: {ipaddr}/{cidr}
+           {bandwidthUpBits}  {bandwidthDownBits}'';
+        on-click = "nm-connection-editor";
       };
-      "tray" = { spacing = 12; };
+
+      # Bluetooth module
+      "bluetooth" = {
+        format = " {status}";
+        format-connected = " {num_connections}";
+        format-disabled = ""; # Hidden when disabled
+        tooltip-format = "{controller_alias}	{controller_address}";
+        tooltip-format-connected = ''
+          {controller_alias}	{controller_address}
+
+          {device_enumerate}'';
+        tooltip-format-enumerate-connected = "{device_alias}	{device_address}";
+        on-click = "blueman-manager";
+      };
+
+      "tray" = {
+        spacing = 12;
+        icon-size = 18;
+      };
+
       "pulseaudio" = {
         format = "{icon} {volume}% {format_source}";
-        format-bluetooth = "{volume}% {icon} {format_source}";
-        format-bluetooth-muted = " {icon} {format_source}";
-        format-muted = " {format_source}";
-        format-source = " {volume}%";
-        format-source-muted = "";
+        format-bluetooth = "{volume}% {icon} {format_source}";
+        format-bluetooth-muted = " {icon} {format_source}";
+        format-muted = " {format_source}";
+        format-source = " {volume}%";
+        format-source-muted = "";
         format-icons = {
-          headphone = "";
-          hands-free = "";
-          headset = "";
-          phone = "";
-          portable = "";
-          car = "";
-          default = [ "" "" "" ];
+          headphone = "";
+          hands-free = "";
+          headset = "";
+          phone = "";
+          portable = "";
+          car = "";
+          default = [ "" "" "" ];
         };
         on-click = "sleep 0.1 && pavucontrol";
+        tooltip = true;
+        tooltip-format = ''
+          {desc}
+          Volume: {volume}%'';
       };
+
+      # Custom GPU module for NVIDIA monitoring
+      "custom/gpu" = {
+        exec =
+          "nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,noheader,nounits | awk '{print \"󰢮 \" $1\"%  \" $2\"°C\"}'";
+        interval = 5;
+        tooltip = true;
+        format = "{}";
+      };
+
       "custom/exit" = {
         tooltip = false;
-        format = "";
+        format = "";
         on-click = "sleep 0.1 && wlogout";
       };
+
       "custom/startmenu" = {
         tooltip = false;
-        format = "";
+        format = "";
         on-click = "sleep 0.1 && rofi-launcher";
       };
+
       "custom/hyprbindings" = {
         tooltip = false;
         format = "󱕴";
         on-click = "sleep 0.1 && list-keybinds";
       };
+
       "idle_inhibitor" = {
         format = "{icon}";
         format-icons = {
-          activated = "";
-          deactivated = "";
+          activated = "";
+          deactivated = "";
         };
-        tooltip = "true";
+        tooltip = true;
+        tooltip-format-activated = "Idle inhibitor: Active";
+        tooltip-format-deactivated = "Idle inhibitor: Inactive";
       };
+
       "custom/notification" = {
         tooltip = false;
         format = "{icon} {}";
         format-icons = {
-          notification = "<span foreground='red'><sup></sup></span>";
-          none = "";
-          dnd-notification = "<span foreground='red'><sup></sup></span>";
-          dnd-none = "";
-          inhibited-notification =
-            "<span foreground='red'><sup></sup></span>";
-          inhibited-none = "";
+          notification = "<span foreground='red'><sup></sup></span>";
+          none = "";
+          dnd-notification = "<span foreground='red'><sup></sup></span>";
+          dnd-none = "";
+          inhibited-notification = "<span foreground='red'><sup></sup></span>";
+          inhibited-none = "";
           dnd-inhibited-notification =
-            "<span foreground='red'><sup></sup></span>";
-          dnd-inhibited-none = "";
+            "<span foreground='red'><sup></sup></span>";
+          dnd-inhibited-none = "";
         };
         return-type = "json";
         exec-if = "which swaync-client";
@@ -137,6 +197,7 @@
         on-click = "sleep 0.1 && task-waybar";
         escape = true;
       };
+
       "battery" = {
         states = {
           warning = 30;
@@ -145,18 +206,23 @@
         format = "{icon} {capacity}%";
         format-charging = "󰂄 {capacity}%";
         format-plugged = "󱘖 {capacity}%";
+        format-full = "󰁹 {capacity}%";
         format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
-        on-click = "";
-        tooltip = false;
+        tooltip = true;
+        tooltip-format = ''
+          {timeTo}
+          Power: {power}W'';
       };
-      "custom/arrow1" = { format = ""; };
-      "custom/arrow2" = { format = ""; };
-      "custom/arrow3" = { format = ""; };
-      "custom/arrow4" = { format = ""; };
-      "custom/arrow5" = { format = ""; };
-      "custom/arrow6" = { format = ""; };
-      "custom/arrow7" = { format = ""; };
+
+      "custom/arrow1" = { format = ""; };
+      "custom/arrow2" = { format = ""; };
+      "custom/arrow3" = { format = ""; };
+      "custom/arrow4" = { format = ""; };
+      "custom/arrow5" = { format = ""; };
+      "custom/arrow6" = { format = ""; };
+      "custom/arrow7" = { format = ""; };
     }];
+
     style = ''
       * {
         font-family: JetBrainsMono Nerd Font Mono;
@@ -165,89 +231,187 @@
         border: none;
         min-height: 0px;
       }
+
       window#waybar {
-        background: #${config.lib.stylix.colors.base00};
-        color: #${config.lib.stylix.colors.base05};
+        background: rgba(26, 27, 38, 0.9);
+        color: #cdd6f4;
       }
+
+      #workspaces {
+        background: transparent;
+      }
+
       #workspaces button {
-        padding: 0px 5px;
+        padding: 0px 8px;
         background: transparent;
-        color: #${config.lib.stylix.colors.base04};
+        color: #89b4fa;
+        border-bottom: 2px solid transparent;
       }
+
       #workspaces button.active {
-        color: #${config.lib.stylix.colors.base08};
+        color: #f5c2e7;
+        border-bottom: 2px solid #f5c2e7;
       }
+
+      #workspaces button.urgent {
+        color: #f38ba8;
+        border-bottom: 2px solid #f38ba8;
+      }
+
       #workspaces button:hover {
-        color: #${config.lib.stylix.colors.base08};
+        background: rgba(137, 180, 250, 0.1);
+        border-bottom: 2px solid #89b4fa;
       }
-      tooltip {
-        background: #${config.lib.stylix.colors.base00};
-        border: 1px solid #${config.lib.stylix.colors.base05};
-        border-radius: 12px;
+
+      #clock,
+      #battery,
+      #cpu,
+      #memory,
+      #disk,
+      #temperature,
+      #backlight,
+      #network,
+      #pulseaudio,
+      #bluetooth,
+      #tray,
+      #idle_inhibitor,
+      #custom-gpu,
+      #custom-notification,
+      #custom-exit,
+      #custom-startmenu,
+      #custom-hyprbindings {
+        padding: 0 10px;
+        margin: 4px 2px;
+        background: rgba(137, 180, 250, 0.1);
+        border-radius: 8px;
       }
-      tooltip label {
-        color: #${config.lib.stylix.colors.base05};
-      }
-      #window {
-        padding: 0px 10px;
-      }
-      #pulseaudio, #cpu, #memory, #idle_inhibitor {
-        padding: 0px 10px;
-        background: #${config.lib.stylix.colors.base04};
-        color: #${config.lib.stylix.colors.base00};
-      }
+
       #custom-startmenu {
-        color: #${config.lib.stylix.colors.base02};
-        padding: 0px 14px;
-        font-size: 20px;
-        background: #${config.lib.stylix.colors.base0B};
+        color: #89b4fa;
+        font-size: 18px;
+        padding: 0 12px;
       }
-      #custom-hyprbindings, #network, #battery,
-      #custom-notification, #custom-exit {
-        background: #${config.lib.stylix.colors.base0F};
-        color: #${config.lib.stylix.colors.base00};
-        padding: 0px 10px;
-      }
-      #tray {
-        background: #${config.lib.stylix.colors.base02};
-        color: #${config.lib.stylix.colors.base00};
-        padding: 0px 10px;
-      }
+
       #clock {
+        color: #f5c2e7;
         font-weight: bold;
-        padding: 0px 10px;
-        color: #${config.lib.stylix.colors.base00};
-        background: #${config.lib.stylix.colors.base0E};
       }
-      #custom-arrow1 {
-        font-size: 24px;
-        color: #${config.lib.stylix.colors.base0E};
-        background: #${config.lib.stylix.colors.base02};
+
+      #battery {
+        color: #a6e3a1;
       }
-      #custom-arrow2 {
-        font-size: 24px;
-        color: #${config.lib.stylix.colors.base02};
-        background: #${config.lib.stylix.colors.base0F};
+
+      #battery.charging {
+        color: #a6e3a1;
       }
-      #custom-arrow3 {
-        font-size: 24px;
-        color: #${config.lib.stylix.colors.base00};
-        background: #${config.lib.stylix.colors.base0F};
+
+      #battery.warning:not(.charging) {
+        color: #fab387;
       }
-      #custom-arrow4 {
-        font-size: 24px;
-        color: #${config.lib.stylix.colors.base0F};
+
+      #battery.critical:not(.charging) {
+        color: #f38ba8;
+        animation: blink 1s linear infinite;
+      }
+
+      @keyframes blink {
+        to {
+          opacity: 0.5;
+        }
+      }
+
+      #cpu {
+        color: #89dceb;
+      }
+
+      #memory {
+        color: #cba6f7;
+      }
+
+      #custom-gpu {
+        color: #76b900;
+      }
+
+      #network {
+        color: #f9e2af;
+      }
+
+      #network.disconnected {
+        color: #f38ba8;
+      }
+
+      #pulseaudio {
+        color: #89b4fa;
+      }
+
+      #pulseaudio.muted {
+        color: #6c7086;
+      }
+
+      #bluetooth {
+        color: #89b4fa;
+      }
+
+      #bluetooth.disabled {
+        color: #6c7086;
+      }
+
+      #bluetooth.connected {
+        color: #a6e3a1;
+      }
+
+      #idle_inhibitor {
+        color: #f5c2e7;
+      }
+
+      #idle_inhibitor.activated {
+        color: #a6e3a1;
+      }
+
+      #custom-notification {
+        color: #f5c2e7;
+      }
+
+      #custom-exit {
+        color: #f38ba8;
+        font-size: 16px;
+      }
+
+      #custom-hyprbindings {
+        color: #94e2d5;
+        font-size: 16px;
+      }
+
+      #tray {
         background: transparent;
       }
-      #custom-arrow6 {
-        font-size: 24px;
-        color: #${config.lib.stylix.colors.base0B};
-        background: #${config.lib.stylix.colors.base04};
+
+      #tray > .passive {
+        -gtk-icon-effect: dim;
       }
+
+      #tray > .needs-attention {
+        -gtk-icon-effect: highlight;
+      }
+
+      #window {
+        color: #cdd6f4;
+        font-style: italic;
+      }
+
+      /* Arrow styling */
+      #custom-arrow1,
+      #custom-arrow2,
+      #custom-arrow3,
+      #custom-arrow4,
+      #custom-arrow5,
+      #custom-arrow6,
       #custom-arrow7 {
-        font-size: 24px;
-        color: #${config.lib.stylix.colors.base04};
         background: transparent;
+        color: #89b4fa;
+        font-size: 16px;
+        margin: 0;
+        padding: 0 4px;
       }
     '';
   };

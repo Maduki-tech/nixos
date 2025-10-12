@@ -20,28 +20,30 @@
     };
 
     stylix = {
-      url = "github:danth/stylix";
+      url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
   };
-  outputs = { self, nixpkgs, home-manager, hyprland, walker, ... }@inputs: {
-    nixosConfigurations = {
-      uwu = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./configuration.nix
-          hyprland.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "bkp";
-            home-manager.users.maduki = import ./home.nix;
-            home-manager.extraSpecialArgs = { inherit walker; };
-          }
-        ];
+  outputs =
+    { self, nixpkgs, home-manager, hyprland, walker, stylix, ... }@inputs: {
+      nixosConfigurations = {
+        uwu = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./configuration.nix
+            hyprland.nixosModules.default
+            stylix.nixosModules.stylix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "bkp";
+              home-manager.users.maduki = import ./home.nix;
+              home-manager.extraSpecialArgs = { inherit walker; };
+            }
+          ];
+        };
       };
     };
-  };
 }
