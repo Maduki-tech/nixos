@@ -1,7 +1,6 @@
 { host, pkgs, ... }:
 {
   home.packages = with pkgs; [
-    swww
     wl-clipboard
     playerctl
   ];
@@ -15,6 +14,12 @@
       "$mainMod, M, exit,"
       "$mainMod, V, togglefloating,"
       "$mainMod, F, fullscreen, 1"
+
+      # Wallpaper controls
+      "$mainMod, W, exec, $SWWW_CYCLE_SCRIPT next"
+      "$mainMod SHIFT, W, exec, $SWWW_CYCLE_SCRIPT prev"
+      "$mainMod CTRL, W, exec, $SWWW_CYCLE_SCRIPT random"
+
       # Move focus with mainMod + arrow keys
       "$mainMod, left, movefocus, l"
       "$mainMod, right, movefocus, r"

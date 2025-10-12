@@ -6,5 +6,6 @@
     ./env.nix
     ./animations-def.nix
     ./exec-once.nix
+    ./swww.nix
   ];
 }
