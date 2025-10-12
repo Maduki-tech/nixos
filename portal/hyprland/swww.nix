@@ -1,18 +1,37 @@
 { config, pkgs, ... }:
 
 let
-  # Path to your wallpapers directory
   wallpaperDir = "/etc/nixos/wallpapers";
 
-  # Script to cycle through wallpapers
+  # Improved script that stores filename instead of index
   wallpaperScript = pkgs.writeShellScript "swww-cycle" ''
     WALLPAPER_DIR="${wallpaperDir}"
+    LOCK_FILE="/tmp/swww-cycling.lock"
+    STATE_FILE="/tmp/swww-current-wallpaper"
     
-    # Get list of images
-    IMAGES=($(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" \)))
+    # Check if already running
+    if [ -f "$LOCK_FILE" ]; then
+      exit 0
+    fi
     
-    # Get current wallpaper
-    CURRENT=$(${pkgs.swww}/bin/swww query | grep -oP 'image: \K.*')
+    # Create lock file
+    touch "$LOCK_FILE"
+    trap "rm -f $LOCK_FILE" EXIT
+    
+    # Get sorted list of images
+    mapfile -t IMAGES < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" \) | sort)
+    
+    if [ ''${#IMAGES[@]} -eq 0 ]; then
+      echo "No images found in $WALLPAPER_DIR"
+      exit 1
+    fi
+    
+    # Get current wallpaper from state file or swww
+    if [ -f "$STATE_FILE" ]; then
+      CURRENT=$(cat "$STATE_FILE")
+    else
+      CURRENT=$(${pkgs.swww}/bin/swww query 2>/dev/null | grep -oP 'image: \K.*' || echo "")
+    fi
     
     # Find current index
     CURRENT_INDEX=-1
@@ -23,32 +42,51 @@ let
       fi
     done
     
-    # Calculate next/previous index based on argument
+    # If not found, start at 0
+    if [ $CURRENT_INDEX -eq -1 ]; then
+      CURRENT_INDEX=0
+    fi
+    
+    # Calculate next index
     if [[ "$1" == "next" ]]; then
       NEXT_INDEX=$(( (CURRENT_INDEX + 1) % ''${#IMAGES[@]} ))
     elif [[ "$1" == "prev" ]]; then
       NEXT_INDEX=$(( (CURRENT_INDEX - 1 + ''${#IMAGES[@]}) % ''${#IMAGES[@]} ))
     else
-      # Random if no argument
+      # Random
       NEXT_INDEX=$((RANDOM % ''${#IMAGES[@]}))
     fi
     
-    # Set wallpaper with transition
-    ${pkgs.swww}/bin/swww img "''${IMAGES[$NEXT_INDEX]}" \
+    NEXT_WALLPAPER="''${IMAGES[$NEXT_INDEX]}"
+    
+    # Debug output (remove after testing)
+    echo "Total images: ''${#IMAGES[@]}" >&2
+    echo "Current index: $CURRENT_INDEX" >&2
+    echo "Next index: $NEXT_INDEX" >&2
+    echo "Next wallpaper: $NEXT_WALLPAPER" >&2
+    
+    # Save new wallpaper to state file
+    echo "$NEXT_WALLPAPER" > "$STATE_FILE"
+    
+    # Set wallpaper
+    ${pkgs.swww}/bin/swww img "$NEXT_WALLPAPER" \
       --transition-type wipe \
-      --transition-duration 2
+      --transition-duration 1
   '';
 
-  # Script to initialize swww with a random wallpaper
   swwwInit = pkgs.writeShellScript "swww-init" ''
     ${pkgs.swww}/bin/swww-daemon &
     sleep 0.5
     
     WALLPAPER_DIR="${wallpaperDir}"
-    IMAGES=($(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" \)))
+    STATE_FILE="/tmp/swww-current-wallpaper"
+    
+    mapfile -t IMAGES < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" \) | sort)
     
     if [ ''${#IMAGES[@]} -gt 0 ]; then
-      RANDOM_IMAGE="''${IMAGES[$RANDOM % ''${#IMAGES[@]}]}"
+      RANDOM_INDEX=$((RANDOM % ''${#IMAGES[@]}))
+      RANDOM_IMAGE="''${IMAGES[$RANDOM_INDEX]}"
+      echo "$RANDOM_IMAGE" > "$STATE_FILE"
       ${pkgs.swww}/bin/swww img "$RANDOM_IMAGE" --transition-type fade
     fi
   '';
