@@ -1,5 +1,4 @@
-{ host, ... }:
-{
+{ host, ... }: {
   imports = [
     ./hyprland.nix
     ./binds.nix
@@ -7,5 +6,6 @@
     ./animations-def.nix
     ./exec-once.nix
     ./swww.nix
+    ./scripts
   ];
 }

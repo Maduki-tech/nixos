@@ -1,8 +1,5 @@
-{ host, ... }:
-{
+{ host, ... }: {
   wayland.windowManager.hyprland.settings = {
-    exec-once = [
-      "$SWWW_INIT_SCRIPT"
-    ];
+    exec-once = [ "sleep 1 && wallsetter" ];
   };
 }

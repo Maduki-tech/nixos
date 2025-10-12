@@ -1,9 +1,5 @@
-{ host, pkgs, ... }:
-{
-  home.packages = with pkgs; [
-    wl-clipboard
-    playerctl
-  ];
+{ host, pkgs, ... }: {
+  home.packages = with pkgs; [ wl-clipboard playerctl ];
   wayland.windowManager.hyprland.settings = {
     bind = [
       # Example binds, see https://wiki.hypr.land/Configuring/Binds/ for more
@@ -16,9 +12,7 @@
       "$mainMod, F, fullscreen, 1"
 
       # Wallpaper controls
-      "$mainMod, W, exec, $SWWW_CYCLE_SCRIPT next"
-      "$mainMod SHIFT, W, exec, $SWWW_CYCLE_SCRIPT prev"
-      "$mainMod CTRL, W, exec, $SWWW_CYCLE_SCRIPT random"
+      "$mainMod, W, exec, wallsetter"
 
       # Move focus with mainMod + arrow keys
       "$mainMod, left, movefocus, l"
@@ -51,10 +45,8 @@
       "$mainMod SHIFT, 0, movetoworkspace, 10"
     ];
 
-    bindm = [
-      "$mainMod, mouse:272, movewindow"
-      "$mainMod, mouse:273, resizewindow"
-    ];
+    bindm =
+      [ "$mainMod, mouse:272, movewindow" "$mainMod, mouse:273, resizewindow" ];
 
     bindel = [
       # Laptop multimedia keys for volume and LCD brightness
