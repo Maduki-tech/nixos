@@ -1,8 +1,1 @@
-{ host, ... }:
-{
-  imports = [
-    ./nvim
-    ./tmux
-    ./walker
-  ];
-}
+{ host, ... }: { imports = [ ./nvim ./tmux ./walker ./mako ]; }
