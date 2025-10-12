@@ -19,14 +19,17 @@
       };
 
       general = {
-        "$modifier" = "SUPER";
-        layout = "dwindle";
-        gaps_in = 6;
-        gaps_out = 8;
+        gaps_in = 5;
+        gaps_out = 20;
         border_size = 2;
-        resize_on_border = true;
-        # "col.active_border" = "rgb(${config.lib.stylix.colors.base08}) rgb(${config.lib.stylix.colors.base0C}) 45deg";
-        # "col.inactive_border" = "rgb(${config.lib.stylix.colors.base01})";
+        # https://wiki.hypr.land/Configuring/Variables/#variable-types for info about colors
+        col.active_border = "rgba (33 ccffee) rgba (00 ff99ee) 45 deg";
+        col.inactive_border = "rgba (595959 aa)";
+        # Set to true enable resizing windows by clicking and dragging on borders and gaps
+        resize_on_border = false;
+        # Please see https://wiki.hypr.land/Configuring/Tearing/ before you turn this on
+        allow_tearing = false;
+        layout = "dwindle";
       };
 
       misc = {
@@ -56,6 +59,8 @@
 
       decoration = {
         rounding = 10;
+        active_opacity = 1.0;
+        inactive_opacity = 0.9;
         blur = {
           enabled = true;
           size = 5;
@@ -76,8 +81,6 @@
         no_update_news = true;
       };
 
-
-
       cursor = {
         sync_gsettings_theme = true;
         no_hardware_cursors = 1; # change to 1 if want to disable
@@ -87,11 +90,13 @@
       };
 
       render = {
-        # Disabling as no longer supported
-        #explicit_sync = 1; # Change to 1 to disable
-        #explicit_sync_kms = 1;
         direct_scanout = 0;
       };
+
+      windowrule = [
+        "suppressevent maximize, class:.*"
+        "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+      ];
 
       master = {
         new_status = "master";
@@ -105,7 +110,7 @@
       };
     };
     extraConfig = ''
-          monitor = HDMI-A-1, 1920x1080, 1920x0, 1
+      monitor = HDMI-A-1, 1920x1080, 1920x0, 1
       monitor = DP-1, 1920x1080, 0x0, 1
     '';
   };

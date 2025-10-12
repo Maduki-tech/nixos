@@ -9,7 +9,10 @@
     hyprland.url = "github:hyprwm/Hyprland";
 
     # Add this to your flake inputs
-    elephant.url = "github:abenz1267/elephant";
+    elephant = {
+      url = "github:abenz1267/elephant";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     walker = {
       url = "github:abenz1267/walker";

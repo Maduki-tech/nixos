@@ -32,7 +32,6 @@
     spotify
 
     waybar
-    walker
     ripgrep
     mako
     fuzzel
