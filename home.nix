@@ -33,6 +33,7 @@
 
     waybar
     walker
+    ripgrep
     mako
     fuzzel
     swaylock

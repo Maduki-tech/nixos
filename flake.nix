@@ -7,8 +7,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
+
+    # Add this to your flake inputs
+    elephant.url = "github:abenz1267/elephant";
+
+    walker = {
+      url = "github:abenz1267/walker";
+      inputs.elephant.follows = "elephant";
+    };
+
   };
-  outputs = { self, nixpkgs, home-manager, hyprland, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, hyprland, walker, ... }@inputs: {
     nixosConfigurations = {
       uwu = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
@@ -21,6 +30,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "bkp";
             home-manager.users.maduki = import ./home.nix;
+            home-manager.extraSpecialArgs = { inherit walker; };
           }
         ];
       };
