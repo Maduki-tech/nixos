@@ -19,6 +19,11 @@
       inputs.elephant.follows = "elephant";
     };
 
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
   outputs = { self, nixpkgs, home-manager, hyprland, walker, ... }@inputs: {
     nixosConfigurations = {
