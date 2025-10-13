@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   home.username = "maduki";
@@ -15,14 +15,7 @@
     settings = { git_protocol = "ssh"; };
   };
 
-  imports = [
-    ./programs
-    ./portal/hyprland
-    ./portal/waybar
-    ./portal/wlogout
-    ./portal/swaylock
-    ./portal/swayidle
-  ];
+  imports = [ ./programs ./portal ];
 
   home.packages = with pkgs; [
     unzip
@@ -59,34 +52,6 @@
   ];
 
   fonts.fontconfig.enable = true;
-
-  # starship - an customizable prompt for any shell
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
-    # custom settings
-    settings = {
-      add_newline = false;
-      line_break.disabled = true;
-    };
-  };
-
-  programs.zsh = {
-    enable = true;
-    autosuggestion = { enable = true; };
-    shellAliases = {
-      nixconf = "nvim ~/etc/nixos";
-      nixbuild = "sudo nixos-rebuild switch --flake ~/etc/nixos#uwu";
-    };
-  };
-
-  programs.ghostty = {
-    enable = true;
-    settings = {
-      font-size = 18;
-      font-family = "JetBrainsMono Nerd Font";
-    };
-  };
 
   programs.lazygit = { enable = true; };
 
