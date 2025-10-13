@@ -8,6 +8,8 @@
       "$mainMod, B, exec, firefox"
       "$mainMod, Q, killactive,"
       "$mainMod, M, exit,"
+      "$mainMod, Escape, exec, swaylock"
+
       "$mainMod, V, togglefloating,"
       "$mainMod, T, exec, ticktick"
       "$mainMod, F, fullscreen, 1"

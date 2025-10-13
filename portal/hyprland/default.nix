@@ -6,5 +6,6 @@
     ./animations-def.nix
     ./exec-once.nix
     ./scripts
+    ./hyprcursor.nix
   ];
 }

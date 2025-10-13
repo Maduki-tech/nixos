@@ -55,6 +55,7 @@
 
     obsidian
     ticktick
+    discord
   ];
 
   fonts.fontconfig.enable = true;
