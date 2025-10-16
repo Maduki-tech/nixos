@@ -24,6 +24,8 @@
     cargo
     tree
     spotify
+    bun
+    nodejs_24
 
     waybar
     ripgrep
@@ -49,6 +51,8 @@
     obsidian
     ticktick
     discord
+    lazydocker
+    btop
   ];
 
   fonts.fontconfig.enable = true;

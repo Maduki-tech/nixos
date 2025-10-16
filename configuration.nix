@@ -107,7 +107,12 @@
     isNormalUser = true;
     shell = pkgs.zsh;
     description = "Maduki";
-    extraGroups = [ "networkmanager" "wheel" "video" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "docker" ];
+  };
+
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
   };
   programs.zsh.enable = true;
   programs.firefox.enable = true;
