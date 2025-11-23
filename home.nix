@@ -15,7 +15,7 @@
     settings = { git_protocol = "ssh"; };
   };
 
-  imports = [ ./programs ./portal ];
+  imports = [ ./programs ./portal ./theme ];
 
   home.packages = with pkgs; [
     unzip
