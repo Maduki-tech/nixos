@@ -26,28 +26,6 @@
     timeout = 1;
   };
 
-  # Boot optimization
-  boot.kernelParams = [
-    "quiet" # Less verbose boot messages
-    "splash" # Show splash screen instead of messages
-    "nvidia-drm.modeset=1" # NVIDIA Wayland support
-    "nowatchdog" # Disable watchdog (can save ~1s)
-    "loglevel=3" # Reduce kernel log verbosity
-    "rd.systemd.show_status=false" # Hide systemd status messages
-    "rd.udev.log_level=3" # Reduce udev log level
-    "vt.global_cursor_default=0" # Hide blinking cursor
-  ];
-
-  # Enable Plymouth for clean boot splash
-  boot.plymouth = {
-    enable = true;
-    theme = "spinner";
-  };
-  boot.initrd.systemd.enable = true;
-  # Silent boot - hide console messages
-  boot.consoleLogLevel = 0;
-  boot.initrd.verbose = false;
-
   ## CONFIG
   networking.hostName = "uwu";
 
@@ -75,8 +53,6 @@
     enable = true;
     wayland.enable = true;
   };
-
-  services.desktopManager.plasma6.enable = false;
 
   services.xserver.xkb = {
     layout = "us";
