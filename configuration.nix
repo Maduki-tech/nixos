@@ -75,13 +75,6 @@
     enable = true;
     wayland.enable = true;
   };
-  services.displayManager = {
-    autoLogin = {
-      enable = true;
-      user = "maduki";
-    };
-    defaultSession = "hyprland";
-  };
 
   services.desktopManager.plasma6.enable = false;
 
