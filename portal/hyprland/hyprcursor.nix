@@ -19,8 +19,7 @@
       cursor = {
         enable_hyprcursor = true;
         sync_gsettings_theme = true;
-        no_hardware_cursors =
-          0; # keep 0 unless you specifically need SW cursors
+        no_hardware_cursors = true;
         warp_on_change_workspace = 2;
         no_warps = true;
       };
