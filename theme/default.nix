@@ -5,5 +5,5 @@
     };
   };
 
-  gtk = { extraConfig = { "gtp-application-prefer-dark-theme" = true; }; };
+  gtk = { extraConfig = { "gtk-application-prefer-dark-theme" = true; }; };
 }
